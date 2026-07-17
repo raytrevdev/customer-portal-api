@@ -25,7 +25,7 @@ class OrderService {
     }
 
     // Wrap order + items in a transaction so a failure never leaves a partial order.
-    return sequelize.transaction(async (t) => {
+    const orderId = await sequelize.transaction(async (t) => {
       let total = 0;
       const order = await orderRepository.create({ customerId, status: 'pending', totalAmount: 0 }, { transaction: t });
 
@@ -45,8 +45,11 @@ class OrderService {
       await order.update({ totalAmount: total.toFixed(2) }, { transaction: t });
 
       logger.info(`Order ${order.id} placed by customer ${customerId} (total ${total.toFixed(2)})`);
-      return orderRepository.findByIdWithItems(order.id);
+      return order.id;
     });
+
+    // Reload the committed order with its items on a fresh connection.
+    return orderRepository.findByIdWithItems(orderId);
   }
 
   async listCustomerOrders(customerId, { page, limit, offset }) {

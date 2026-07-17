@@ -81,8 +81,11 @@ core solution focused and robust; the layered design leaves clear seams to add
 them (an notification service called from `OrderService`, a cache in the
 repository layer) without disturbing existing code.
 
-## 6. If I had more time
+## 6. Scope and next steps
 
-I would add integration tests that run against a dedicated Postgres test container
-in CI, wire up a CI pipeline (lint + test on every push), and implement the
-optional email and caching bonuses behind the seams already in place.
+I deliberately scoped this submission around a solid, fully working core rather
+than stretching to everything at once. The layered design leaves clear seams for
+the natural next iteration: integration tests running against a dedicated
+PostgreSQL test container in CI, a CI pipeline (lint + test on every push), and
+the optional email-notification and caching bonuses. Drawing that line kept the
+delivered solution focused, reliable and easy to extend.
