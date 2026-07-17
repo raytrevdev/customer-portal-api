@@ -19,8 +19,8 @@ brief.
 
 **Layered architecture with the Repository Pattern.** Controllers handle HTTP
 only; services contain business rules; repositories are the single place that
-touches the ORM. This keeps business logic independent of Sequelize — if the data
-layer ever changed, services would be unaffected — and it made the logic trivial
+touches the ORM. This keeps business logic independent of Sequelize and if the data
+layer ever changed, services would be unaffected and it made the logic trivial
 to unit-test by mocking repositories. This directly maps to the brief's request
 for Clean Architecture, separation of concerns and abstracting the ORM from
 business logic.
@@ -59,7 +59,7 @@ repository abstraction, logging of key events) are met.
 **Container start-up ordering.** The API container can start before PostgreSQL is
 ready to accept connections, which would crash migrations. I solved this with a
 Docker healthcheck on the database plus an entrypoint script that polls the DB and
-only runs migrations, seeds and the server once it is genuinely reachable — so
+only runs migrations, seeds and the server once it is genuinely reachable. So
 `docker compose up` is reliable on a clean machine.
 
 **Idempotent seeding.** Because the entrypoint may run on every container start, I
@@ -70,7 +70,7 @@ before inserting), so restarting the stack never produces duplicates or errors.
 without provisioning a database, I unit-tested the business logic and middleware
 with the data-access layer mocked, and used Supertest for the database-independent
 HTTP paths (routing, validation, auth guards, 404s). This verifies the parts most
-likely to contain bugs — the rules and wiring — while the full data path is
+likely to contain bugs, the rules and wiring while the full data path is
 exercised interactively through Swagger against the Dockerised Postgres.
 
 ## 5. Bonus features
