@@ -173,6 +173,10 @@ The seeder creates one administrator and a small product catalogue:
 |---|---|---|
 | Admin | `admin@portal.com` | `Admin@123` |
 
+> **Security note:** These are demo-only defaults for local evaluation. The admin
+> credentials (`ADMIN_EMAIL` / `ADMIN_PASSWORD`) and `JWT_SECRET` must be changed
+> to strong, secret values before any deployment beyond local use.
+
 Register your own customer account via `POST /api/auth/register` to explore the
 customer-facing endpoints.
 
