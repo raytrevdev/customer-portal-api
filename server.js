@@ -19,7 +19,6 @@ async function start() {
   }
 }
 
-// Fail loudly on unexpected errors.
 process.on('unhandledRejection', (reason) => {
   logger.error(`Unhandled rejection: ${reason}`);
 });

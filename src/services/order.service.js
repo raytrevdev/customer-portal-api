@@ -7,7 +7,6 @@ const { buildPagination } = require('../utils/pagination');
 const logger = require('../config/logger');
 
 class OrderService {
-  // Customer places an order from a list of { productId, quantity }.
   async placeOrder(customerId, items) {
     if (!Array.isArray(items) || items.length === 0) {
       throw ApiError.badRequest('An order must contain at least one item');

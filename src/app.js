@@ -10,29 +10,26 @@ const { notFound, errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
-// Security & parsing
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
-// API routes
 app.use('/api', routes);
 
-// Swagger / OpenAPI docs (auto-generated from route annotations)
+// Swagger UI is generated from the @openapi annotations in the route files.
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   swaggerOptions: { persistAuthorization: true },
   customSiteTitle: 'Customer Portal API Docs',
 }));
 app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
 
-// Friendly root
 app.get('/', (req, res) => res.json({
   success: true,
   message: 'Customer Portal API. Visit /api-docs for interactive documentation.',
 }));
 
-// 404 + global error handling (must be last)
+// 404 + error handler must be registered last.
 app.use(notFound);
 app.use(errorHandler);
 
