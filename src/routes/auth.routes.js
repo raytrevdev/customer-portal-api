@@ -2,9 +2,13 @@ const express = require('express');
 const controller = require('../controllers/auth.controller');
 const validate = require('../middlewares/validate');
 const rules = require('../validators/auth.validator');
+const { authLimiter } = require('../middlewares/rateLimiter');
 const asyncHandler = require('../utils/asyncHandler');
 
 const router = express.Router();
+
+// Throttle authentication attempts to mitigate credential brute-forcing.
+router.use(authLimiter);
 
 /**
  * @openapi

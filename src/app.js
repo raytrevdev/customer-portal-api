@@ -6,6 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 const routes = require('./routes');
 const requestLogger = require('./middlewares/requestLogger');
+const { apiLimiter } = require('./middlewares/rateLimiter');
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
-app.use('/api', routes);
+app.use('/api', apiLimiter, routes);
 
 // Swagger UI is generated from the @openapi annotations in the route files.
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {

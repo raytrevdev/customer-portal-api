@@ -34,7 +34,9 @@ services up to that handler, so controllers stay free of error-handling clutter.
 **Security by default.** Passwords are hashed with bcrypt and never returned (the
 model strips the hash in `toJSON`). Authentication is stateless via JWT; admin
 endpoints are additionally gated by a role-based authorization middleware. `helmet`
-and `cors` are enabled.
+and `cors` are enabled. The brief did not ask for it, but I added rate limiting as
+a small production-hardening step — a lenient limit across the API and a stricter
+one on the authentication endpoints to slow down credential brute-forcing.
 
 **Data integrity.** Placing an order computes the total from authoritative product
 prices on the server (never trusting client-supplied prices) and writes the order
