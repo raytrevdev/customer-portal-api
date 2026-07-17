@@ -1,0 +1,9 @@
+node_modules/
+.env
+logs/
+*.log
+coverage/
+.DS_Store
+
+# leftover sandbox artifact - safe to delete
+_delete_this_git/
